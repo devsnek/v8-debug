@@ -6,7 +6,7 @@ const { Script } = require('vm');
 
 setFlagsFromString('--allow-natives-syntax');
 
-const { extend } = require('../tools/macros');
+const { extend } = require('./macros');
 
 const namespace = {
   iterator_symbol: Symbol.iterator,

@@ -2,7 +2,12 @@
   "name": "debug",
   "version": "0.0.1",
   "main": "src/index.js",
-  "dependencies": {},
+  "dependencies": {
+    "eslint-plugin-v8": "github:devsnek/eslint-plugin-v8"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devsnek/v8-debug.git"

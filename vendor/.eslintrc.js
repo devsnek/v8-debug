@@ -3,30 +3,21 @@
 const Module = require('module');
 const path = require('path');
 
+require('eslint-plugin-v8')({
+  macroFiles: [path.resolve(__dirname, './macros.py')],
+});
+
 const ModuleFindPath = Module._findPath;
 Module._findPath = (request, paths, isMain) => {
   const r = ModuleFindPath(request, paths, isMain);
   if (!r && request === 'eslint-plugin-v8')
-    return require.resolve(`../tools/${request}`);
+    return require.resolve(`../node_modules/${request}`);
   return r;
 };
 
-let parent;
-let level = 1;
-while (!parent) {
-  const p = path.resolve(`./${'../'.repeat(level)}`);
-  try {
-    parent = require.resolve(`${p}/.eslintrc`);
-    break;
-  } catch (err) {
-    if (p === '/')
-      break;
-    level++;
-  }
-}
 
 module.exports = {
-  extends: [parent],
+  extends: ['../.eslintrc.js'],
   plugins: ['v8'],
   parser: 'eslint-plugin-v8',
   rules: {
