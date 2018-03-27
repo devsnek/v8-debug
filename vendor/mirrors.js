@@ -42,6 +42,7 @@ var SetValues = global.Set.prototype.values;
 //       - SetMirror
 //       - IteratorMirror
 //       - GeneratorMirror
+//       - ProxyMirror
 //   - PropertyMirror
 //   - InternalPropertyMirror
 //   - FrameMirror
@@ -110,6 +111,7 @@ var MirrorType = {
   SET_TYPE: 'set',
   ITERATOR_TYPE: 'iterator',
   GENERATOR_TYPE: 'generator',
+  PROXY_TYPE: 'proxy',
 };
 
 /**
@@ -155,6 +157,8 @@ function MakeMirror(value) {
     mirror = new PromiseMirror(value);
   } else if (IS_GENERATOR(value)) {
     mirror = new GeneratorMirror(value);
+  } else if (IS_PROXY(value)) {
+    mirror = new ProxyMirror(value);
   } else {
     mirror = new ObjectMirror(value, MirrorType.OBJECT_TYPE);
   }
@@ -1405,6 +1409,20 @@ GeneratorMirror.prototype.allScopes = function() {
   return scopes;
 };
 
+
+class ProxyMirror extends ObjectMirror {
+  constructor(value) {
+    super(value, MirrorType.PROXY_TYPE);
+  }
+
+  handler() {
+    return new ObjectMirror(%JSProxyGetHandler(this.value_));
+  }
+
+  target() {
+    return new ObjectMirror(%JSProxyGetTarget(this.value_));
+  }
+}
 
 /**
  * Base mirror object for properties.

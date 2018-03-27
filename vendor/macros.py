@@ -61,6 +61,7 @@ macro IS_SYMBOL(arg)            = (typeof(arg) === 'symbol');
 macro IS_UNDEFINED(arg)         = (arg === (void 0));
 macro IS_WEAKMAP(arg)           = (%_IsJSWeakMap(arg));
 macro IS_WEAKSET(arg)           = (%_IsJSWeakSet(arg));
+macro IS_PROXY(arg)             = (%IsJSProxy(arg));
 
 # Macro for ES queries of the type: "Type(O) is Object."
 macro IS_RECEIVER(arg) = (%_IsJSReceiver(arg));
