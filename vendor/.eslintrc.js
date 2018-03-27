@@ -4,10 +4,9 @@ const Module = require('module');
 const path = require('path');
 
 const ModuleFindPath = Module._findPath;
-const hacks = ['eslint-plugin-v8'];
 Module._findPath = (request, paths, isMain) => {
   const r = ModuleFindPath(request, paths, isMain);
-  if (!r && hacks.includes(request))
+  if (!r && request === 'eslint-plugin-v8')
     return require.resolve(`../tools/${request}`);
   return r;
 };
@@ -38,7 +37,7 @@ const gReduce = (obj) => {
 module.exports = {
   extends: [parent],
   plugins: ['v8'],
-  parser: '../tools/eslint-plugin-v8.js',
+  parser: 'eslint-plugin-v8',
   globals: {
     ...gReduce(macros.macros),
     ...gReduce(macros.defines),
