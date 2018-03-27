@@ -25,23 +25,10 @@ while (!parent) {
   }
 }
 
-const macros = require('../tools/macros');
-
-const gReduce = (obj) => {
-  const g = {};
-  for (const k in obj)
-    g[k] = false;
-  return g;
-};
-
 module.exports = {
   extends: [parent],
   plugins: ['v8'],
   parser: 'eslint-plugin-v8',
-  globals: {
-    ...gReduce(macros.macros),
-    ...gReduce(macros.defines),
-  },
   rules: {
     'curly': ['error', 'multi-line', 'consistent'],
     'indent': ['error', 2, {
