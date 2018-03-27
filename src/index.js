@@ -8,7 +8,6 @@ setFlagsFromString('--allow-natives-syntax');
 
 const { extend } = require('../tools/macros');
 
-
 const namespace = {
   iterator_symbol: Symbol.iterator,
 };

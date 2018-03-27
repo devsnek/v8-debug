@@ -7,9 +7,14 @@ const CONST_PATTERN = /^define\s+([a-zA-Z0-9_]+)\s*=\s*([^;]*);$/mg;
 const INLINE_MACRO_PATTERN = /^macro\s+([a-zA-Z0-9_]+)\s*\(([^)]*)\)\s*=\s*([^;]*);$/mg;
 const MACRO_PATTERN = /^macro\s+([a-zA-Z0-9_]+)\s*\(([^)]*)\)\n(.*)\nendmacro$/mg;
 
-function parse(source) {
+const parseCache = new Map();
+
+function parse(source, key) {
   const defines = {};
   const macros = {};
+
+  if (key && parseCache.has(key))
+    return parseCache.get(key);
 
   CONST_PATTERN.lastIndex = 0;
   source = source.replace(CONST_PATTERN, (_, name, val) => {
@@ -37,6 +42,9 @@ function parse(source) {
     return `/* MC ${name}(${args.join(', ')})\n${body}\nENDMC */`;
   });
 
+  if (key)
+    parseCache.set(key, { defines, macros, source });
+
   return { defines, macros, source };
 }
 
@@ -45,8 +53,8 @@ const { defines, macros } = parse(macrosSource);
 
 module.exports = {
   defines, macros,
-  extend(source) {
-    const out = parse(source);
+  extend(source, key) {
+    const out = parse(source, key);
     return {
       defines: { ...out.defines, ...defines },
       macros: { ...out.macros, ...macros },

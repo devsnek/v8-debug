@@ -33,7 +33,7 @@ exports.rules = {
   'no-undef': ruleComposer.filterReports(new eslint.Linter().getRules().get('no-undef'), ({ node }, metadata) => {
     if (/^%/.test(node.name))
       return false;
-    const { macros, defines } = extend(metadata.sourceCode.text);
+    const { macros, defines } = extend(metadata.sourceCode.text, metadata.sourceCode);
     const keys = [...Object.keys(macros), ...Object.keys(defines)];
     return !keys.includes(node.name);
   }),
