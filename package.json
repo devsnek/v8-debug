@@ -2,9 +2,6 @@
   "name": "debug",
   "version": "0.0.1",
   "main": "src/index.js",
-  "dependencies": {
-    "eslint-plugin-v8": "github:devsnek/eslint-plugin-v8"
-  },
   "scripts": {
     "lint": "eslint ."
   },
@@ -22,6 +19,7 @@
     "acorn": "^5.5.3",
     "eslint": "^4.19.1",
     "eslint-rule-composer": "^0.1.1",
+    "eslint-plugin-v8": "github:devsnek/eslint-plugin-v8",
     "espree": "^3.5.4"
   }
 }
