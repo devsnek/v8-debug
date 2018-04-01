@@ -64,8 +64,8 @@ const load = (name) => {
   return fn;
 };
 
-load('../vendor/prologue');
-load('../vendor/mirrors');
+load('../vendor/prologue.js');
+load('../vendor/mirrors.js');
 
 utils.PostNatives(utils);
 

@@ -25,6 +25,11 @@ module.exports = {
     'indent': ['error', 2, {
       ignoredNodes: ['Program > ExpressionStatement > FunctionExpression > BlockStatement > *'],
       FunctionDeclaration: { parameters: 'first' },
+      FunctionExpression: { parameters: 'first' },
+      ArrayExpression: 'first',
+      CallExpression: { arguments: 'first' },
+      MemberExpression: 'off',
+      ObjectExpression: 'first',
     }],
     'prefer-rest-params': 'off',
     'no-shadow': 'off',
@@ -42,6 +47,8 @@ module.exports = {
     'no-unused-vars': 'off',
     'func-style': 'off',
     'no-empty-function': 'off',
+    'quotes': 'off',
+    'no-unused-expressions': 'off',
 
     // proper undef
     'no-undef': 'off',

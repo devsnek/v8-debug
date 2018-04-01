@@ -2,12 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// Modified by devsnek
+// modified by devsnek
 
-// eslint-disable-next-line no-unused-expressions
 (function(global, utils, extrasUtils, exports_container) {
 
-'use strict';
+"use strict";
 
 // %CheckIsBootstrapping();
 
@@ -42,8 +41,8 @@ function ImportNow(name) {
 
 
 function InstallConstants(object, constants) {
-  // %CheckIsBootstrapping();
   object = object === global ? exports_container : object;
+  // %CheckIsBootstrapping();
   %OptimizeObjectForAddingMultipleProperties(object, constants.length >> 1);
   var attributes = DONT_ENUM | DONT_DELETE | READ_ONLY;
   for (var i = 0; i < constants.length; i += 2) {
@@ -59,7 +58,8 @@ function InstallConstants(object, constants) {
 // The "prototype" property of the function object is made non-configurable,
 // and the prototype object is made non-extensible. The latter prevents
 // changing the __proto__ property.
-function SetUpLockedPrototype(constructor, fields, methods) {
+function SetUpLockedPrototype(
+    constructor, fields, methods) {
   // %CheckIsBootstrapping();
   var prototype = constructor.prototype;
   // Install functions first, because this function is used to initialize
@@ -70,7 +70,8 @@ function SetUpLockedPrototype(constructor, fields, methods) {
   }
   if (fields) {
     for (var i = 0; i < fields.length; i++) {
-      %AddNamedProperty(prototype, fields[i], UNDEFINED, DONT_ENUM | DONT_DELETE);
+      %AddNamedProperty(prototype, fields[i],
+                        UNDEFINED, DONT_ENUM | DONT_DELETE);
     }
   }
   for (var i = 0; i < methods.length; i += 2) {
@@ -100,42 +101,6 @@ function PostNatives(utils) {
   utils.ImportNow = UNDEFINED;
   utils.PostNatives = UNDEFINED;
 }
-
-// ----------------------------------------------------------------------------
-// Object
-
-var iteratorSymbol = ImportNow('iterator_symbol');
-
-// ES6 7.3.9
-function GetMethod(obj, p) {
-  var func = obj[p];
-  if (IS_NULL_OR_UNDEFINED(func)) return UNDEFINED;
-  if (IS_CALLABLE(func)) return func;
-  throw %make_type_error(kCalledNonCallable, typeof func);
-}
-
-// ----------------------------------------------------------------------------
-// Iterator related spec functions.
-
-// ES6 7.4.1 GetIterator(obj, method)
-function GetIterator(obj, method) {
-  if (IS_UNDEFINED(method)) {
-    method = obj[iteratorSymbol];
-  }
-  if (!IS_CALLABLE(method)) {
-    throw %make_type_error(kNotIterable, obj);
-  }
-  var iterator = %_Call(method, obj);
-  if (!IS_RECEIVER(iterator)) {
-    throw %make_type_error(kNotAnIterator, iterator);
-  }
-  return iterator;
-}
-
-
-exports_container.GetIterator = GetIterator;
-exports_container.GetMethod = GetMethod;
-
 
 // -----------------------------------------------------------------------
 
